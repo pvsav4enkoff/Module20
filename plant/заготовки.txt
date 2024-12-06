@@ -1,0 +1,24 @@
+поле с выбором из списка
+<form method="post">
+  {% csrf_token %}
+  <label for="username">Введите логин:</label>
+  <select id="username" name="username">
+    {% for user in users %}
+      <option value="{{ user.username }}">{{ user.username }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+даты в фильтрах
+from datetime import date
+from myapp.models import MyModel
+
+my_date = date(2022, 1, 1)
+results = MyModel.objects.filter(my_date_field=my_date)
+
+from datetime import date
+from myapp.models import MyModel
+
+today = date.today()
+results = MyModel.objects.filter(my_date_field__gt=today)  # будущие даты
+results = MyModel.objects.filter(my_date_field__lt=today)  # прошедшие даты
