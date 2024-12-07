@@ -25,16 +25,6 @@ def view_plant_employee(request):
     context = {'header': header, 'page_post': page_posts}
     return render(request, 'employee.html', context)
 
-# def spis(request):
-#     error = None
-#     good = None
-#     brigades =[]
-#     br = Brigade.objects.all().values_list('name', flat=True)
-#     for b in br:
-#         brigades.append(b)
-#     info = {'good': good, 'error': error, 'brigades': brigades}
-#
-#     return render(request, 'registration_page.html', info)
 def sign_up_by_plant(request):
     # error = None
     # good = None
