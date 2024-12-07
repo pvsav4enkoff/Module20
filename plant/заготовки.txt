@@ -22,3 +22,14 @@ from myapp.models import MyModel
 today = date.today()
 results = MyModel.objects.filter(my_date_field__gt=today)  # будущие даты
 results = MyModel.objects.filter(my_date_field__lt=today)  # прошедшие даты
+
+
+<form method="post">
+  {% csrf_token %}
+  <label for="username">Введите логин:</label>
+  <select id="username" name="username">
+    {% for user in users %}
+      <option value="{{ user.username }}">{{ user.username }}</option>
+    {% endfor %}
+  </select>
+</form>

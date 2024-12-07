@@ -24,27 +24,47 @@ def view_plant_employee(request):
 
     context = {'header': header, 'page_post': page_posts}
     return render(request, 'employee.html', context)
-def sign_up_by_django(request):
-    error = None
-    good = None
+
+# def spis(request):
+#     error = None
+#     good = None
+#     brigades =[]
+#     br = Brigade.objects.all().values_list('name', flat=True)
+#     for b in br:
+#         brigades.append(b)
+#     info = {'good': good, 'error': error, 'brigades': brigades}
+#
+#     return render(request, 'registration_page.html', info)
+def sign_up_by_plant(request):
+    # error = None
+    # good = None
+    brigades =[]
+    br = Brigade.objects.all().values_list('name', flat=True)
+    for b in br:
+        brigades.append(b)
     if request.method == "POST":
         form = EmployeeRegistr(request.POST)
-
+        info = {'good': None, 'error': None, 'brigades': brigades}
         if form.is_valid():
             username = form.cleaned_data['name']
             users = Employee.objects.all().values_list('name', flat=True)
             if username in users:
-                error = 'Такой логин уже существует.'
+                error = 'Такой сотрудник уже существует.'
             position = form.cleaned_data['position']
             boss = form.cleaned_data['boss']
             brigade = form.cleaned_data['brigade']
+            br = Brigade.objects.get(name=brigade).id
+
+            print('выбор',str(br),error,username,users)
             if error == None:
-                Employee.objects.create(name=username, position=position, boss=boss, activ = True, brigade=brigade)
+                Employee.objects.create(name=username, position=position, boss=boss, activ = True, brigade_id=br)
                 good = f'Приветствуем, {username}!'
+                info['good'] = good
+                info['error'] = error
         else:
             error = 'Форма не валидна.'
-        info = {'good': good, 'error': error}
+        info['error'] = error
         return render(request, 'registration_page.html', info)
     else:
-        form = UserRegistr()
+        form = EmployeeRegistr()
         return render(request, 'registration_page.html')
